@@ -13,7 +13,7 @@ import android.util.Log
 
 private const val TAG = "AppProvider"
 
-private const val CONTENT_AUTHORITY = "com.martinnnachi.tasktimer.provider"
+const val CONTENT_AUTHORITY = "com.martinnnachi.tasktimer.provider"
 private const val TASKS = 100
 private const val TASKS_ID = 101
 
@@ -53,19 +53,19 @@ class AppProvider : ContentProvider() {
         return true
     }
 
-    override fun getType(p0: Uri): String? {
+    override fun getType(uri: Uri): String? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun query(
-        p0: Uri,
-        p1: Array<String>?,
-        p2: String?,
-        p3: Array<String>?,
-        p4: String?
+        uri: Uri,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<out String>?,
+        sortOrder: String?
     ): Cursor? {
-        Log.d(TAG, "query: called with uri $p0")
-        val match = uriMatcher.match(p0)
+        Log.d(TAG, "query: called with uri $uri")
+        val match = uriMatcher.match(uri)
         Log.d(TAG, "query: match is $match")
 
         val queryBuilder = SQLiteQueryBuilder()
@@ -75,7 +75,7 @@ class AppProvider : ContentProvider() {
 
             TASKS_ID -> {
                 queryBuilder.tables = TasksContract.TABLE_NAME
-                val taskId = TasksContract.getId(p0)
+                val taskId = TasksContract.getId(uri)
                 queryBuilder.appendWhereEscapeString("${TasksContract.Columns.ID} = $taskId")       // <-- change method
             }
 
@@ -95,16 +95,14 @@ class AppProvider : ContentProvider() {
 //                queryBuilder.appendWhereEscapeString("${DurationsContract.Columns.ID} = $durationId")   // <-- and here
 //            }
 //
-//            else -> throw IllegalArgumentException("Unknown URI: $uri")
-//        }
-//
-//        val db = AppDatabase.getInstance(context).readableDatabase
-//        val cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder)
-//        Log.d(TAG, "query: rows in returned cursor = ${cursor.count}") // TODO remove this line
+            else -> throw IllegalArgumentException("Unknown URI: $uri")
+        }
+
+        val db = AppDatabase.getInstance(context).readableDatabase
+        val cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder)
+        Log.d(TAG, "query: rows in returned cursor = ${cursor.count}") // TODO remove this line
 
         return cursor
-
-
     }
 
     override fun insert(p0: Uri, p1: ContentValues): Uri? {
