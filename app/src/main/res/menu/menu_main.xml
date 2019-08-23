@@ -3,8 +3,21 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="com.martinnnachi.tasktimer.MainActivity">
     <item
+            android:id="@+id/menumain_addTask"
+            android:icon="@android:drawable/ic_menu_add"
+            android:orderInCategory="10"
+            android:title="@string/menutitle_addTask"
+            app:showAsAction="ifRoom" />
+    <item
+            android:id="@+id/menumain_showDurations"
+            android:icon="@android:drawable/ic_menu_view"
+            android:orderInCategory="20"
+            android:title="@string/menutitle_showDurations"
+            app:showAsAction="ifRoom" />
+    <item
             android:id="@+id/action_settings"
             android:title="@string/action_settings"
-            android:orderInCategory="100"
             app:showAsAction="never" />
+    <item android:title="Item" />
+    <item android:title="Item" />
 </menu>
